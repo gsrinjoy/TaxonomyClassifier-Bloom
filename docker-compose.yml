@@ -1,0 +1,16 @@
+version: '3'
+services:
+  web:
+    build: .
+    volumes:
+      - .:/code
+    ports:
+      - "2000:2000"
+    image: web:textxls
+    restart: unless-stopped
+    container_name: textxls-api
+    command: gunicorn textxls.wsgi:application --bind 0.0.0.0:2000
+
+
+
+
