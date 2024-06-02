@@ -1,0 +1,28 @@
+
+from transformers import pipeline
+import torch
+
+# Load the model and tokenizer
+classifier = pipeline("text-classification", model="textattack/bert-base-uncased-SST-2")
+# classifier = pipeline("text-classification", model="distilbert-base-uncased-finetuned-sst-2-english")
+
+def determine_taxonomy_level(question):
+    # Example labels, these should be replaced with the actual labels of your model
+    labels = ['Evaluating', 'Remembering', 'Understanding', 'Applying', 'Analysing', 'Creating']
+
+    # Get prediction
+    result = classifier(question)[0]
+
+    # Here, you would map the result to one of the Bloom's Taxonomy levels
+    # This is just a placeholder
+    label = labels[int(result['label'].split('_')[-1]) % len(labels)]
+    confidence = result['score']  # Get the confidence score
+
+    print(f"Prediction: {label}, Confidence: {confidence}")  # Print the prediction and confidence
+
+    return label
+
+
+# Test the function
+question = "What is the capital of France?"
+print(determine_taxonomy_level(question))
